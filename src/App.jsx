@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { useState } from "react";
+import React, { Component} from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import { saveAs } from "file-saver";
@@ -46,12 +46,38 @@ function parseOutputFileName(formatString, originalFileName, rowNum, data) {
     });
 }
 
+
+const getIsMobile = () => window.innerWidth <= 1000;
+
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(getIsMobile());
+
+    useEffect(() => {
+        const onResize = () => {
+            setIsMobile(getIsMobile());
+        }
+        window.addEventListener("resize", onResize);
+        console.log("window.innerWidth", window.innerWidth);
+        console.log("window.outerWidth", window.outerWidth);
+    
+        return () => {
+            window.removeEventListener("resize", onResize);
+        }
+    }, []);
+    
+    return isMobile;
+}
+
 function App() {
     const [templateDocxFile, setTemplateDocxFile] = useState(null);
     const [csvFile, setCsvFile] = useState(null);
     const [outputFileFormatString, setOutputFileFormatString] = useState(
         "{originalFileName}_{rowNum}.docx"
     );
+
+    const [showHowToUse, setShowHowToUse] = useState(false);
+        
+    const isMobile = useIsMobile();
 
     const generateDocument = () => {
         loadArrayBufferFromFile(templateDocxFile, function (error, content) {
@@ -103,7 +129,7 @@ function App() {
             <div>
                 <h2>Docx templater</h2>
                 <div className="card">
-                    <h3>1. DOCX 템플릿 파일을 업로드 해주세요.</h3>
+                    <h3>1. docx 템플릿 파일 선택</h3>
                     <input
                         type="file"
                         onChange={(e) => setTemplateDocxFile(e.target.files[0])}
@@ -111,7 +137,7 @@ function App() {
                     />
                 </div>
                 <div className="card">
-                    <h3>2. CSV 파일을 업로드 해주세요.</h3>
+                    <h3>2. csv 파일 선택</h3>
                     <input
                         type="file"
                         onChange={(e) => setCsvFile(e.target.files[0])}
@@ -119,7 +145,7 @@ function App() {
                     />
                 </div>
                 <div className="card">
-                    <h3>3. output file format을 작성해주세요.</h3>
+                    <h3>3. output file format 작성</h3>
                     <input
                         type="text"
                         onChange={(e) => setOutputFileFormatString(e.target.value)}
@@ -137,7 +163,11 @@ function App() {
                 <p className="read-the-docs">made by lullu</p>
             </div>
             <div>
-                <HowToUse />
+                {
+                    isMobile 
+                    ? null
+                    : <HowToUse />
+                }
             </div>
         </div>
     );

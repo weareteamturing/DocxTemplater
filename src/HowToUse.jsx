@@ -15,7 +15,7 @@ function HowToUse() {
                     </div>
                 }
             />
-            <ToggleDiv title="2. file을 선택해 업로드" subComponent={<div></div>} />
+            <ToggleDiv title="2. docx, csv를 선택" subComponent={<div></div>} />
             <ToggleDiv
                 title="3. output file format을 원하는 포맷으로 작성"
                 subComponent={
@@ -29,6 +29,9 @@ function HowToUse() {
                         </li>
                     </div>
                 }
+            />
+            <ToggleDiv
+                title="Generate documents로 docx 파일들을 생성"
             />
         </>
     );

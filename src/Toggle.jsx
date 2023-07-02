@@ -8,7 +8,6 @@ function ToggleDiv(props) {
             <div style={{}} onClick={() => setIsShow(!isShow)}>
                 <h4
                     style={{
-                        color: "#BBBBBB",
                         textAlign: "left",
                     }}
                 >

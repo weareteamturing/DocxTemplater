@@ -36,6 +36,10 @@ h1 {
   line-height: 1.1;
 }
 
+h4 {
+  color: #BBBBBB;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -55,15 +59,51 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+
+button:not([disabled]) {
+  /* dark green */
+  background-color: #1a381a; 
+  border: 2px solid transparent;
+  border-color: #1a221a;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #f0f0f0;
   }
+
+  a {
+    color: #0048ff;
+  }
+
   a:hover {
-    color: #747bff;
+    color: #002cff;
   }
+
+  h4 {
+    color: #777777;
+  }
+
   button {
-    background-color: #f9f9f9;
+    background-color: #e5e5e5;
+    color: #000000;
+    border-color: transparent;
+  }
+
+  button:hover {
+    border-color: #0048ff;
+  }
+
+  button:focus,
+  button:focus-visible {
+    outline-color: #002cff;
+  }
+
+  button:not([disabled]) {
+    /* light green */
+    background-color: #cce5cc;
+    border: 2px solid transparent;
+    border-color: #cce0cc;
   }
 }
