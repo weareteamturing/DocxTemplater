@@ -28,7 +28,7 @@ function loadCsvDataFromFile(file, callback) {
             .map((row) => {
                 const values = row.split(",");
                 return columns.reduce((object, curr, i) => {
-                    object[curr] = values[i];
+                    object[curr] = values[i].trim();
                     return object;
                 }, {});
             });
@@ -89,6 +89,7 @@ function App() {
                 if (error) {
                     throw error;
                 }
+                console.log("data", data);
 
                 data.forEach((row, i) => {
                     var zip = new PizZip(content);
