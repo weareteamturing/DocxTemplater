@@ -22,16 +22,22 @@ function HowToUse() {
                     <div>
                         <img src="output_format_example.png" />
                         <li style={{ textAlign: "left" }}>
-                            기본적으로 csv의 열 순서를 나타내는 <b>{`{rowNum}`}</b>을 사용할 수 있습니다.
+                            기본적으로 csv의 열 순서를 나타내는 <b>{`{rowNum}`}</b>을 사용할 수
+                            있습니다.
                         </li>
                         <li style={{ textAlign: "left" }}>
-                        <b>{`{contracteeName}`}</b>과 같이 csv의 열 이름을 사용할 수 있습니다.
+                            <b>{`{contracteeName}`}</b>과 같이 csv의 열 이름을 사용할 수 있습니다.
                         </li>
                     </div>
                 }
             />
             <ToggleDiv
-                title="Generate documents로 docx 파일들을 생성"
+                title="4. Generate documents로 docx 파일들을 생성"
+                subComponent={
+                    <div>
+                        <img src="template_result.png" />
+                    </div>
+                }
             />
         </>
     );
