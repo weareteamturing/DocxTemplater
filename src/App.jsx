@@ -17,16 +17,16 @@ function loadArrayBufferFromFile(file, callback) {
     reader.readAsArrayBuffer(file);
 }
 
-// CSV 파싱을 위한 개선된 함수
-function parseCSV(text) {
+// CSV/TSV 파싱을 위한 개선된 함수
+function parseCSV(text, delimiter = ',') {
     const lines = text.split('\n');
     const result = [];
-    const headers = parseCSVLine(lines[0]);
+    const headers = parseCSVLine(lines[0], delimiter);
     
     for (let i = 1; i < lines.length; i++) {
         if (lines[i].trim() === '') continue; // 빈 줄 스킵
         
-        const values = parseCSVLine(lines[i]);
+        const values = parseCSVLine(lines[i], delimiter);
         const obj = {};
         
         for (let j = 0; j < headers.length; j++) {
@@ -39,8 +39,8 @@ function parseCSV(text) {
     return result;
 }
 
-// 한 줄의 CSV를 파싱하는 함수 (쉼표가 포함된 필드 처리)
-function parseCSVLine(line) {
+// 한 줄의 CSV/TSV를 파싱하는 함수 (구분자가 포함된 필드 처리)
+function parseCSVLine(line, delimiter = ',') {
     const result = [];
     let current = '';
     let inQuotes = false;
@@ -58,7 +58,7 @@ function parseCSVLine(line) {
                 // 따옴표 시작/종료
                 inQuotes = !inQuotes;
             }
-        } else if (char === ',' && !inQuotes) {
+        } else if (char === delimiter && !inQuotes) {
             // 필드 구분자
             result.push(current);
             current = '';
@@ -73,13 +73,15 @@ function parseCSVLine(line) {
     return result;
 }
 
-// 기존 loadCsvDataFromFile 함수를 다음과 같이 수정
+// CSV/TSV 파일 로드 함수
 function loadCsvDataFromFile(file, callback) {
     var reader = new FileReader();
     reader.onloadend = function (e) {
         const content = e.target.result;
         try {
-            const data = parseCSV(content);
+            // 파일 확장자로 구분자 결정
+            const delimiter = file.name.toLowerCase().endsWith('.tsv') ? '\t' : ',';
+            const data = parseCSV(content, delimiter);
             callback(null, data);
         } catch (error) {
             callback(error, null);
@@ -189,11 +191,11 @@ function App() {
                     />
                 </div>
                 <div className="card">
-                    <h3>2. csv 파일 선택</h3>
+                    <h3>2. csv/tsv 파일 선택</h3>
                     <input
                         type="file"
                         onChange={(e) => setCsvFile(e.target.files[0])}
-                        accept=".csv"
+                        accept=".csv,.tsv"
                     />
                 </div>
                 <div className="card">
